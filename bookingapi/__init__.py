@@ -4,7 +4,7 @@ from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from werkzeug.middleware.proxy_fix import ProxyFix
 
-from ..backend.bookingapi import messages
+from bookingapi import messages
 from .config import Config
 from .controllers.booking_controller import create_booking_blueprint
 from .repositories.supabase_repository import SupabaseBookingRepository
