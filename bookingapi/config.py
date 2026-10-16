@@ -26,3 +26,11 @@ class Config:
     DEFAULT_LIMIT = "120 per hour"
     READ_LIMIT = "60 per minute"
     BOOKING_LIMIT = "5 per hour;20 per day"
+
+    # #Mail integration
+    # MAIL_SERVER = 'smtp.gmail.com'
+    # MAIL_PORT = 465
+    # MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+    # MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+    # MAIL_USE_TLS = False
+    # MAIL_USE_SSL = True

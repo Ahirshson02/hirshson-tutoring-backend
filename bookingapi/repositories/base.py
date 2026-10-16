@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from datetime import datetime
 from typing import Optional
 
 from ..models import Availability, User
@@ -30,3 +31,9 @@ class BookingRepository(ABC):
     @abstractmethod
     def attach_user(self, availability_id: str, user_id: str) -> None:
         """Link a claimed slot to its user."""
+        
+    @abstractmethod
+    def get_unnotified_bookings(self, older_than: datetime) -> list[dict]: ...
+
+    @abstractmethod
+    def mark_notified(self, slot_ids: list[str]) -> None: ...

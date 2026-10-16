@@ -70,3 +70,26 @@ class SupabaseBookingRepository(BookingRepository):
 
     def attach_user(self, availability_id: str, user_id: str) -> None:
         self._db.table(AVAILABILITIES).update({"user_id": user_id}).eq("id", availability_id).execute()
+
+
+    #email job for missed sessions
+   
+    def get_unnotified_bookings(self, older_than):
+        PENDING_COLUMNS = (
+            "slot_id, guardian_name, student_name, email, phone, subject, notes, "
+            "wants_recurring, wants_multiple_per_week, booked_at, day, start_time"
+            )
+        res = (
+            self._db.table("bookings_view")
+            .select(PENDING_COLUMNS)
+            .or_("tracking.is.null,tracking.eq.false")
+            .lt("booked_at", older_than.isoformat())
+            .order("booked_at")
+            .execute()
+        )
+        return res.data or []
+
+    def mark_notified(self, slot_ids):
+        if not slot_ids:
+            return
+        self._db.table("availabilities").update({"tracking": True}).in_("id", slot_ids).execute()

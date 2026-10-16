@@ -27,3 +27,6 @@ Thumbs.db
 # Logs and local files
 *.log
 instance/
+
+#Gmail integrarion
+/googleconfig/
