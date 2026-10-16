@@ -13,6 +13,11 @@ from .responses import failure, success
 from .services.booking_service import BookingService
 from .services.notification_service import NoOpNotificationService, GmailNotificationService
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 def create_app(config=Config) -> Flask:
     app = Flask(__name__)
@@ -32,7 +37,7 @@ def create_app(config=Config) -> Flask:
     # --- Wiring: swap these two lines to change storage or add notifications ---
     repo = SupabaseBookingRepository(config.SUPABASE_URL, config.SUPABASE_KEY)
    # notifier = NoOpNotificationService()  # <- PLUG IN email/SMS here (see notification_service.py)
-    if os.environ.get("GOOGLE_REFRESH_TOKEN") and os.environ.get("NOTIFY_EMAIL"):
+    if os.getenv("GOOGLE_REFRESH_TOKEN") and os.getenv("GMAIL_SELF"):
         notifier = GmailNotificationService.from_env()
     else:
         notifier = NoOpNotificationService()   # your existing no-ops
@@ -49,6 +54,23 @@ def create_app(config=Config) -> Flask:
     @app.route("/", methods=['GET','POST'])
     def home():
         return render_template('index.html')
+
+    @app.route("/dummymail")
+    def dummymail():
+        sample_booking = {
+        "bookingId": 123,
+        "day": "Monday",
+        "time": "4:00 PM",
+        "guardianName": "Jane Smith",
+        "studentName": "Alex Smith",
+        "email": "jane.smith@example.com",
+        "phone": "3055550123",
+        "subject": "Algebra II",
+        "notes": "Needs help preparing for an upcoming exam.",
+        "wantsRecurring": True,
+        "wantsMultiplePerWeek": False,
+    }
+        notifier.booking_created(sample_booking)
 
     @app.errorhandler(404)
     def _404(_):

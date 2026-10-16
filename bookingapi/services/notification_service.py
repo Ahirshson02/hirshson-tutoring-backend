@@ -54,7 +54,12 @@ class GmailNotificationService(NotificationService):
 
     @classmethod
     def from_env(cls):
-        return cls(os.environ["GMAIL_SELF"], os.environ["GMAIL_SELF"])
+        gmail_self = os.getenv("GMAIL_SELF")
+
+        if not gmail_self:
+            raise ValueError("GMAIL_SELF environment variable is not set")
+
+        return cls(gmail_self, gmail_self)
 
     def booking_created(self, booking: dict) -> None:
         msg = EmailMessage()
