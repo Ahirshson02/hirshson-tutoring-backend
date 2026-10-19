@@ -14,6 +14,7 @@ from .services.booking_service import BookingService
 from .services.notification_service import NoOpNotificationService, GmailNotificationService
 
 import os
+import logging
 
 def create_app(config=Config) -> Flask:
     app = Flask(__name__)
@@ -37,6 +38,7 @@ def create_app(config=Config) -> Flask:
         notifier = GmailNotificationService.from_env()
     else:
         notifier = NoOpNotificationService()   # your existing no-ops
+    logging.info(f"notifier is type {notifier.__class__}")
     # ---------------------------------------------------------------------------
 
     service = BookingService(repo, notifier)
