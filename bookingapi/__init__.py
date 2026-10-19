@@ -13,6 +13,7 @@ from .responses import failure, success
 from .services.booking_service import BookingService
 from .services.notification_service import NoOpNotificationService, GmailNotificationService
 
+import os
 
 def create_app(config=Config) -> Flask:
     app = Flask(__name__)
