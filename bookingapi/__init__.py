@@ -13,8 +13,14 @@ from .responses import failure, success
 from .services.booking_service import BookingService
 from .services.notification_service import NoOpNotificationService, GmailNotificationService
 
-import os
-import logging
+import logging, sys, os
+
+logging.basicConfig(
+    level=logging.INFO,
+    stream=sys.stdout,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    force=True,
+)
 
 def create_app(config=Config) -> Flask:
     app = Flask(__name__)
