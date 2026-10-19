@@ -40,7 +40,7 @@ def create_app(config=Config) -> Flask:
     # --- Wiring: swap these two lines to change storage or add notifications ---
     repo = SupabaseBookingRepository(config.SUPABASE_URL, config.SUPABASE_KEY)
    # notifier = NoOpNotificationService()  # <- PLUG IN email/SMS here (see notification_service.py)
-    if os.environ.get("GOOGLE_REFRESH_TOKEN") and os.environ.get("NOTIFY_EMAIL"):
+    if os.environ.get("GOOGLE_REFRESH_TOKEN") and os.environ.get("GMAIL_SELF"):
         notifier = GmailNotificationService.from_env()
     else:
         notifier = NoOpNotificationService()   # your existing no-ops
