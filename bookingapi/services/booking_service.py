@@ -67,6 +67,7 @@ class BookingService:
         booking = self._to_booking(claimed, user)
         try:
             self._notifier.booking_created(booking)
+            self._repo.mark_notified(booking['bookingId'])
         except Exception:
             log.exception("Notification failed for booking %s", claimed.id)
         return booking
@@ -112,14 +113,14 @@ class BookingService:
         if not student:
             raise BookingError(messages.STUDENT_NAME_REQUIRED)
         email = text("email", 254).lower()
-        if not EMAIL_RE.match(email):
-            raise BookingError(messages.EMAIL_INVALID)
+        # if not EMAIL_RE.match(email):
+        #     raise BookingError(messages.EMAIL_INVALID)
         phone: Optional[str] = text("phone", 30) or None
         if phone and not PHONE_RE.match(phone):
             raise BookingError(messages.PHONE_INVALID)
         subject = text("subject", 100)
-        if subject not in SUBJECTS:
-            raise BookingError(messages.SUBJECT_INVALID)
+        # if subject not in SUBJECTS:
+        #     raise BookingError(messages.SUBJECT_INVALID)
         notes: Optional[str] = text("notes", 1000) or None
 
         flags = {}

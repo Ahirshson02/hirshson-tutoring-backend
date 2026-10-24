@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Subjects accepted by the API (must match the frontend list).
-SUBJECTS = ["Middle School Math", "Algebra", "Geometry", "Pre-Calculus", "Computer Science"]
+SUBJECTS = ["Middle School Math", "Algebra", "Geometry", "Pre-Calculus", "Computer Science", "SAT/ACT/PERT"]
 
 
 def _require(name: str) -> str:
